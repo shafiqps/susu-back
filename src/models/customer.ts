@@ -1,4 +1,12 @@
-import { Column, Entity } from "typeorm"  
+import { 
+    BeforeInsert,
+    Column,
+    Entity,
+    OneToMany,
+  } from "typeorm"
+
+  import { Withdrawal } from "./withdrawal"
+
 import {  
  // alias the core entity to not cause a naming conflict  
  Customer as MedusaCustomer,  
@@ -14,4 +22,7 @@ export class Customer extends MedusaCustomer {
  referralInput: String
  @Column()  
  referrer: String
+
+ @OneToMany(() => Withdrawal, (withdrawal) => withdrawal.customer)
+  withdrawals: Withdrawal[]
 }
