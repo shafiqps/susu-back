@@ -4,7 +4,7 @@ import {
     MedusaContainer,
     
   } from "@medusajs/medusa"  
-  import { Customer } from "@medusajs/medusa"
+  import { Customer, Item } from "@medusajs/medusa"
 import { CustomRepositoryCannotInheritRepositoryError } from "typeorm"
   
   export default class OrderService extends MedusaOrderService {  
@@ -17,6 +17,13 @@ import { CustomRepositoryCannotInheritRepositoryError } from "typeorm"
         )
         return await custRepo.save(updatedCustomer)
       }
+
+      // async test(updatedCustomer): Promise<Item[]> {
+      //   const custRepo = this.activeManager_.getRepository(
+      //     Item
+      //   )
+      //   return await custRepo.
+      // }
       
     constructor(container){
         super(container)
@@ -36,7 +43,7 @@ import { CustomRepositoryCannotInheritRepositoryError } from "typeorm"
         await this.recursiveFunction(referrerCust, loyaltyPoints)  
       }
     }
-  
+    
     async calculateLoyaltyPoints(orderId) {  
       const order = await this.retrieveWithTotals(orderId)
       console.log(order.customer_id)
@@ -64,7 +71,16 @@ import { CustomRepositoryCannotInheritRepositoryError } from "typeorm"
         await this.recursiveFunction(referrercust, loyaltyPoints)
       }
 
-      
+      // Assuming order.cart.items is an array of items and each item has a 'quantity' property
+      const totalQuantity = order.items.reduce((total, item) => {
+        return total + item.quantity;
+      }, 0); // Start with a total of 0
+      customer.totalOrders += 1;
+      console.log(totalQuantity)
+      if (totalQuantity >= 10) {
+        console.log(totalQuantity)
+        customer.totalBulkPurchase = customer.totalBulkPurchase + Math.floor(totalQuantity / 10);
+      }
       order.loyaltyPoints += loyaltyPoints
       console.log(order)
       const updatedOrder = await this.orderRepository_.save(order)

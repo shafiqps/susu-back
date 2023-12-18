@@ -22,6 +22,14 @@ export class Customer extends MedusaCustomer {
  referralInput: String
  @Column()  
  referrer: String
+ @Column()  
+ totalOrders: number
+ @Column()  
+ recruits: number
+ @Column()  
+ totalBulkPurchase: number
+ @Column()  
+ totalProfitShare: number
 
  @OneToMany(() => Withdrawal, (withdrawal) => withdrawal.customer)
   withdrawals: Withdrawal[]
