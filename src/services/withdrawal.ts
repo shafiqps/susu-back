@@ -103,7 +103,22 @@ class WithdrawalService extends TransactionBaseService {
       return await withdrawalRepo.save(withdrawal)
     })
   }
-
+  async listByCustomer(
+    selector: Selector<Withdrawal> = {},
+    config: FindConfig<Withdrawal> = {
+      skip: 0,
+      take: 20,
+      relations: [],
+    },
+    customerId?: string
+  ): Promise<Withdrawal[]> {
+    if (customerId) {
+      selector.customer_id = customerId;
+    }
+    const [withdrawals] = await this.listAndCount(selector, config);
+    return withdrawals;
+  }
+  
   async delete(id: string): Promise<void> {
     return await this.atomicPhase_(async (manager) => {
       const withdrawalRepo = manager.withRepository(
