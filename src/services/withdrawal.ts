@@ -37,7 +37,7 @@ class WithdrawalService extends TransactionBaseService {
     config: FindConfig<Withdrawal> = {
       skip: 0,
       take: 20,
-      relations: [],
+      relations: ["customer"],
   }): Promise<Withdrawal[]> {
     const [withdrawals] = await this.listAndCount(selector, config)
 
