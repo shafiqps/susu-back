@@ -5,9 +5,11 @@ export default async function () {
     imports.allowedStoreCustomersFields = [
       ...imports.allowedStoreCustomersFields,
       "loyaltyPoints",
+      "totalOrders",
     ]
     imports.defaultStoreCustomersFields = [
       ...imports.defaultStoreCustomersFields,
       "loyaltyPoints",
+      "totalOrders",
     ]
   }
