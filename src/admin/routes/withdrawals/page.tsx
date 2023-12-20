@@ -46,7 +46,31 @@ const Withdrawals = () => {
   
   const WithdrawalDetails = ({ withdrawal, onClose }) => {
     if (!withdrawal) return null;
-  
+    const handleAccept = async () => {
+      try {
+        // Update withdrawal status to 'approved'
+        await handleUpdateStatus('approved');
+    
+        // Deduct points from the customer's LoyaltyPoints
+        const response = await fetch('http://localhost:9000/store/update-loyalty-points', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            customerId: withdrawal.customer_id,
+            pointsToDeduct: withdrawal.total
+          }),
+        });
+        if (!response.ok) {
+          throw new Error('Failed to update customer loyalty points');
+        }
+    
+        onClose(); // Close the modal after updating
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
     const handleUpdateStatus = async (newStatus) => {
       try {
         const response = await fetch(`http://localhost:9000/store/withdrawals/${withdrawal.id}`, {
@@ -73,11 +97,11 @@ const Withdrawals = () => {
         <p>Reason: {withdrawal.reason}</p>
         {/* Include other details you want to show */}
         {withdrawal.status !== 'approved' && withdrawal.status !== 'rejected' && (
-        <>
-          <Button onClick={() => handleUpdateStatus('approved')}>Approve</Button>
-          <Button onClick={() => handleUpdateStatus('rejected')}>Reject</Button>
-        </>
-      )}
+          <>
+            <Button onClick={handleAccept}>Approve</Button>
+            <Button onClick={() => handleUpdateStatus('rejected')}>Reject</Button>
+          </>
+        )}
         
         <Button onClick={onClose}>Close</Button>
       </Container>

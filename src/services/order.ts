@@ -30,6 +30,7 @@ import { CustomRepositoryCannotInheritRepositoryError } from "typeorm"
         this.customerService = container.customerService
         
     }
+    
 
     async recursiveFunction(referrer, loyaltyPoints){
       const referrerReferral = referrer.metadata?.referrer;
