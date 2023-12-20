@@ -11,7 +11,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   
     try {
       const withdrawals = await withdrawalService.listByCustomerCompleted({}, {}, loggedInUserId);
-      res.json({ withdrawals });
+      res.status(200).json({ withdrawals });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
