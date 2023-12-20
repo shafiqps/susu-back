@@ -7,7 +7,7 @@ import {
 import { WithdrawalRepository } from "../repositories/withdrawal"
 import { Withdrawal } from "../models/withdrawal"
 import { MedusaError } from "@medusajs/utils"
-
+import { Not } from "typeorm"
 class WithdrawalService extends TransactionBaseService {
   protected withdrawalRepository_: typeof WithdrawalRepository
 
@@ -103,7 +103,7 @@ class WithdrawalService extends TransactionBaseService {
       return await withdrawalRepo.save(withdrawal)
     })
   }
-  async listByCustomer(
+  async listByCustomerPending(
     selector: Selector<Withdrawal> = {},
     config: FindConfig<Withdrawal> = {
       skip: 0,
@@ -114,6 +114,24 @@ class WithdrawalService extends TransactionBaseService {
   ): Promise<Withdrawal[]> {
     if (customerId) {
       selector.customer_id = customerId;
+      selector.status = "pending";
+    }
+    const [withdrawals] = await this.listAndCount(selector, config);
+    return withdrawals;
+  }
+
+  async listByCustomerCompleted(
+    selector: Selector<Withdrawal> = {},
+    config: FindConfig<Withdrawal> = {
+      skip: 0,
+      take: 20,
+      relations: [],
+    },
+    customerId?: string
+  ): Promise<Withdrawal[]> {
+    if (customerId) {
+      selector.customer_id = customerId;
+      selector.status = Not("pending")
     }
     const [withdrawals] = await this.listAndCount(selector, config);
     return withdrawals;

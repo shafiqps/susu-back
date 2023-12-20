@@ -2,7 +2,7 @@ import type {
     MedusaRequest, 
     MedusaResponse,
   } from "@medusajs/medusa"
-  import WithdrawalService  from "../../../../services/withdrawal"
+  import WithdrawalService  from "../../../../../services/withdrawal"
 
 // Example route to list withdrawals for the logged-in user
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
