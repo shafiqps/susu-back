@@ -41,8 +41,12 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 
     // Optionally, refetch updated customers if needed
     const updatedCustomers = await customerRepository.find();
+    const sortedCustomers = updatedCustomers.sort((a, b) => {
+      return b.recruits - a.recruits; // For descending order
+    });
+    const topCustomers = sortedCustomers.slice(0, 10);
 
-    res.status(200).json(updatedCustomers);
+    res.status(200).json(topCustomers);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

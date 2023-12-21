@@ -13,8 +13,9 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const sortedCustomers = customers.sort((a, b) => {
       return b.loyaltyPoints - a.loyaltyPoints; // For descending order
     });
+    const topCustomers = sortedCustomers.slice(0, 10);
 
-    res.status(200).json(sortedCustomers);
+    res.status(200).json(topCustomers);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

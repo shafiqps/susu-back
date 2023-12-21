@@ -37,8 +37,8 @@ import { CustomRepositoryCannotInheritRepositoryError } from "typeorm"
       if(referrerReferral){
         const referrer = "cus_01" + referrerReferral;
         const referrerCust = await this.customerService.retrieve(referrer)
-
-        const referrerPoints = Math.ceil(loyaltyPoints*0.05)
+        console.log(loyaltyPoints*0.05)
+        const referrerPoints = Math.round((loyaltyPoints*0.05)*100)
         referrerCust.loyaltyPoints += referrerPoints;
         await this.findRepo(referrerCust)
         await this.recursiveFunction(referrerCust, loyaltyPoints)  
@@ -52,7 +52,7 @@ import { CustomRepositoryCannotInheritRepositoryError } from "typeorm"
       console.log(customer)
       const referrerId = customer.metadata?.referrer;
       console.log(String(referrerId))
-      const loyaltyPoints = Math.ceil(order.total / 100)
+      const loyaltyPoints = order.total / 100
       console.log(order.total) 
       console.log(order.total) 
       console.log(loyaltyPoints)
@@ -64,7 +64,8 @@ import { CustomRepositoryCannotInheritRepositoryError } from "typeorm"
         const referrercust = await this.customerService.retrieve(referrer)
 
         console.log(referrercust)
-        const referrerPoints = Math.ceil(loyaltyPoints*0.20)
+        console.log(loyaltyPoints*0.2)
+        const referrerPoints = Math.round((loyaltyPoints*0.20)*100)
         console.log(referrerPoints)
         referrercust.loyaltyPoints += referrerPoints;
         await this.findRepo(referrercust)
