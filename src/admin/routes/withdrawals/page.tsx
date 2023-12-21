@@ -129,7 +129,7 @@ const Withdrawals = () => {
             {withdrawals.map((withdrawal) => (
               <Table.Row key={withdrawal.id} onClick={() => handleRowClick(withdrawal)}>
                 <Table.Cell>{formatDate(withdrawal.created_at)}</Table.Cell>
-                <Table.Cell>{withdrawal.total}</Table.Cell>
+                <Table.Cell>{withdrawal.total/100}</Table.Cell>
                 <Table.Cell>{withdrawal.status}</Table.Cell>
                 <Table.Cell>{withdrawal.customer?.email || 'Unknown'}</Table.Cell>
                 {/* Add more fields as needed */}
