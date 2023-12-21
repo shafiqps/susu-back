@@ -53,7 +53,6 @@ import { CustomRepositoryCannotInheritRepositoryError } from "typeorm"
       const referrerId = customer.metadata?.referrer;
       console.log(String(referrerId))
       const loyaltyPoints = Math.ceil(order.total / 100)
-      customer.loyaltyPoints += loyaltyPoints;
       console.log(order.total) 
       console.log(order.total) 
       console.log(loyaltyPoints)
