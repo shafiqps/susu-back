@@ -6,7 +6,7 @@ import {
   } from "typeorm"
 
   import { Withdrawal } from "./withdrawal"
-
+import { Redeem } from "./redeem"
 import {  
  // alias the core entity to not cause a naming conflict  
  Customer as MedusaCustomer,  
@@ -33,4 +33,7 @@ export class Customer extends MedusaCustomer {
 
  @OneToMany(() => Withdrawal, (withdrawal) => withdrawal.customer)
   withdrawals: Withdrawal[]
+
+  @OneToMany(() => Redeem, (redeem) => redeem.customer)
+  redeem: Redeem[]
 }

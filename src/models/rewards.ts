@@ -3,10 +3,12 @@ import {
     Column, 
     Entity,
     JoinColumn,
-    ManyToOne, 
+    ManyToOne,
+    OneToMany 
   } from "typeorm"
   import { BaseEntity } from "@medusajs/medusa"
   import { generateEntityId } from "@medusajs/medusa/dist/utils"
+  import { Redeem } from "./redeem"
   
   @Entity()
   export class Rewards extends BaseEntity {
@@ -22,7 +24,8 @@ import {
     @Column({ type: "varchar" })
     caption: string
 
-    
+    @OneToMany(() => Redeem, (redeem) => redeem.rewards)
+  redeem: Redeem[]
   
     
 
