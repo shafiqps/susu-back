@@ -4,6 +4,7 @@ import { Container } from "@medusajs/ui"
 import { Button } from "@medusajs/ui"
 import { Text } from "@medusajs/ui"
 
+import { Cash } from "@medusajs/icons"
 
 
 
@@ -169,6 +170,7 @@ const WithdrawalDetails = ({ withdrawal, onClose, onUpdateStatus }) => {
 export const config = {
   link: {
     label: "Withdrawals",
+    icon: Cash,
   },
 };
 

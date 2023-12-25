@@ -29,3 +29,23 @@ import type {
     }
   };
   
+  // create a withdrawal
+  export const POST = async (
+    req: MedusaRequest, 
+    res: MedusaResponse
+  ) => {
+    const rewardsService: RewardsService = req.scope.resolve(
+      "rewardsService"
+    )
+  
+    // basic validation of request body
+    if (!req.body.price || !req.body.caption) {
+      throw new Error("`total` and `customer_id` are required.")
+    }
+  
+    const post = await rewardsService.create(req.body)
+  
+    res.json({
+      post,
+    })
+  }

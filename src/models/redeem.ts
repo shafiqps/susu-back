@@ -16,6 +16,12 @@ import {
     @Column({ type: "varchar" })
     status: string
 
+    @Column({ type: "varchar" })
+    customer_id: string
+
+    @Column({ type: "varchar" })
+    rewards_id: string
+
     @ManyToOne(() => Customer, (customer) => customer.redeem)
     @JoinColumn({ name: "customer_id" })
     customer: Customer;

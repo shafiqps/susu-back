@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './RewardsList.css'; // Import your CSS file
+import { ShoppingBag } from "@medusajs/icons"
 
 const RewardsPage = () => {
     const [rewards, setRewards] = useState([]);
@@ -7,7 +8,10 @@ const RewardsPage = () => {
 
     useEffect(() => {
       const fetchRewards = async () => {
-        const response = await fetch('http://localhost:9000/store/rewards');
+        const response = await fetch('http://localhost:9000/admin/rewards', {
+          credentials:"include",
+
+        });
         const data = await response.json();
         setRewards(data);
       };
@@ -56,7 +60,7 @@ const RewardDetails = ({ reward, onClose }) => {
 
     const handleDeleteReward = async () => {
         try {
-          await fetch(`http://localhost:9000/store/rewards/${reward.id}`, {
+          await fetch(`http://localhost:9000/admin/rewards/${reward.id}`, {
             method: 'DELETE',
             credentials:"include",
           });
@@ -78,8 +82,9 @@ const RewardDetails = ({ reward, onClose }) => {
             price: Math.round(editForm.price*100),
           };
         try {
-          const response = await fetch(`http://localhost:9000/store/rewards/${reward.id}`, {
+          const response = await fetch(`http://localhost:9000/admin/rewards/${reward.id}`, {
             method: 'POST',
+            credentials:"include",
             headers: {
               'Content-Type': 'application/json',
             },
@@ -119,6 +124,7 @@ const RewardDetails = ({ reward, onClose }) => {
 export const config = {
     link: {
       label: "Rewards",
+      icon: ShoppingBag,
     },
   };
 export default RewardsPage;

@@ -55,8 +55,10 @@ const NewRewardForm = () => {
     console.log(rewardData)
 
     try {
-      const response = await fetch('http://localhost:9000/store/rewards', {
+      const response = await fetch('http://localhost:9000/admin/rewards', {
         method: 'POST',
+        credentials:"include",
+
         headers: {
           'Content-Type': 'application/json',
         },
