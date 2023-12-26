@@ -79,6 +79,7 @@ const Redeems = () => {
       } catch (error) {
         console.error('Error:', error);
       }
+    };
   return (
     <div>
       <Container>
@@ -118,7 +119,7 @@ const Redeems = () => {
       </Container>
     </div>
   );
-};
+
 }
 
 
