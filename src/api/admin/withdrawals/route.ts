@@ -15,7 +15,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const config = {
       skip: 0,
       take: 20, // You can adjust pagination settings here
-      relations: [] // Include any relations if needed
+      relations: ["customer"] // Include any relations if needed
     };
 
     // Retrieve all withdrawals

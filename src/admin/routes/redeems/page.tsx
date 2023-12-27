@@ -60,7 +60,7 @@ const Redeems = () => {
       try {
         // Update withdrawal status to 'approved'
         await handleUpdateStatus('approved', redeems);
-    
+        console.log(redeems.customer_id)
         // Deduct points from the customer's LoyaltyPoints
         const response = await fetch('http://localhost:9000/store/update-loyalty-points', {
           method: 'POST',
@@ -69,7 +69,7 @@ const Redeems = () => {
           },
           body: JSON.stringify({
             customerId: redeems.customer_id,
-            pointsToDeduct: redeems.price
+            pointsToDeduct: redeems.rewards.price
           }),
         });
         if (!response.ok) {
@@ -92,6 +92,8 @@ const Redeems = () => {
             <Table.Row>
               <Table.HeaderCell>Date Created</Table.HeaderCell>
               <Table.HeaderCell>Reward</Table.HeaderCell>
+              <Table.HeaderCell>Price</Table.HeaderCell>
+
               <Table.HeaderCell>Status</Table.HeaderCell>
               <Table.HeaderCell>Customer</Table.HeaderCell>
             </Table.Row>
@@ -100,13 +102,14 @@ const Redeems = () => {
             {redeem.map((redeem) => (
               <Table.Row key={redeem.id}>
                 <Table.Cell>{formatDate(redeem.created_at)}</Table.Cell>
-                <Table.Cell>{redeem.price}</Table.Cell>
+                <Table.Cell>{redeem.rewards?.caption}</Table.Cell>
+                <Table.Cell>{redeem.rewards?.price}</Table.Cell>
                 <Table.Cell>{redeem.status}</Table.Cell>
                 <Table.Cell>{redeem.customer?.email || 'Unknown'}</Table.Cell>
                 <Table.Cell>
                 {redeem.status !== 'approved' && redeem.status !== 'rejected' && (
                     <>
-                        <Button onClick={handleAccept}>Approve</Button>
+                        <Button onClick={() => handleAccept(redeem)}>Approve</Button>
                         <Button onClick={() => handleUpdateStatus('rejected', redeem)}>Reject</Button>
                     </>
                     )}

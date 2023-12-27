@@ -14,7 +14,9 @@ const Withdrawals = () => {
   useEffect(() => {
     const fetchWithdrawals = async () => {
       try {
-        const response = await fetch('http://localhost:9000/store/withdrawals');
+        const response = await fetch('http://localhost:9000/admin/withdrawals',{
+          credentials:"include"
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch withdrawals');
         }
@@ -60,7 +62,7 @@ const Withdrawals = () => {
           },
           body: JSON.stringify({
             customerId: withdrawal.customer_id,
-            pointsToDeduct: withdrawal.total
+            pointsToDeduct: withdrawal.total,
           }),
         });
         if (!response.ok) {

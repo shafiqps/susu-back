@@ -30,6 +30,8 @@ export class Customer extends MedusaCustomer {
  totalBulkPurchase: number
  @Column()  
  totalProfitShare: number
+ @Column()  
+ pendingFunds: number
 
  @OneToMany(() => Withdrawal, (withdrawal) => withdrawal.customer)
   withdrawals: Withdrawal[]

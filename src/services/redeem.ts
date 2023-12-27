@@ -67,7 +67,21 @@ import {
   
       return redeem
     }
-  
+    async listById(
+      selector: Selector<Redeem> = {},
+      config: FindConfig<Redeem> = {
+        skip: 0,
+        take: 20,
+        relations: [],
+      },
+      customerId?: string
+    ): Promise<Redeem[]> {
+      if (customerId) {
+        selector.customer_id = customerId;
+      }
+      const [redeems] = await this.listAndCount(selector, config);
+      return redeems;
+    }
     async create(
       data: Pick<Redeem, "status" | "customer_id" | "rewards_id">
     ): Promise<Redeem> {
@@ -76,10 +90,10 @@ import {
           this.redeemRepository_
         )
         const redeem = redeemRepo.create()
-        redeem.status = data.status
+        redeem.status = "pending"
         redeem.customer_id = data.customer_id
         redeem.rewards_id = data.rewards_id
-       
+        console.log(redeem)
         const result = await redeemRepo.save(redeem)
   
         return result

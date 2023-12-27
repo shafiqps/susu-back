@@ -15,6 +15,7 @@ export declare module "@medusajs/medusa/dist/models/order" {
         recruits: number
         totalBulkPurchase: number
         totalProfitShare: number
+        pendingFunds: number
              }
     
   }

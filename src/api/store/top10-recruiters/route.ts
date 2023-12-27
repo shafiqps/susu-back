@@ -8,7 +8,11 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const customerRepository = manager.getRepository(Customer);
 
     // Fetch all customers
-    const allCustomers = await customerRepository.find();
+    const allCustomers = await customerRepository.find({
+      relations: ["billing_address"],
+    });
+
+    console.log(allCustomers)
 
     // Map to hold referralCode and count of how many times it's been referred
     const referralCounts = new Map();
@@ -40,11 +44,14 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     }
 
     // Optionally, refetch updated customers if needed
-    const updatedCustomers = await customerRepository.find();
+    const updatedCustomers = await customerRepository.find(
+      {relations: ["billing_address"],}
+    );
     const sortedCustomers = updatedCustomers.sort((a, b) => {
       return b.recruits - a.recruits; // For descending order
     });
     const topCustomers = sortedCustomers.slice(0, 10);
+    console.log(topCustomers)
 
     res.status(200).json(topCustomers);
   } catch (error) {
