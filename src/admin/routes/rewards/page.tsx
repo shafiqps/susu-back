@@ -3,12 +3,14 @@ import './RewardsList.css'; // Import your CSS file
 import { ShoppingBag } from "@medusajs/icons"
 
 const RewardsPage = () => {
+    const apiUrl = "https://suffy-storefront.jutasoftware.co"; // Access the environment variable
+
     const [rewards, setRewards] = useState([]);
     const [selectedReward, setSelectedReward] = useState(null);
 
     useEffect(() => {
       const fetchRewards = async () => {
-        const response = await fetch('http://localhost:9000/admin/rewards', {
+        const response = await fetch(`${apiUrl}/admin/rewards`, {
           credentials:"include",
 
         });
@@ -27,7 +29,7 @@ const RewardsPage = () => {
     return (
       <div className="rewards-container">
         <h1 className="title">Rewards</h1>
-        <button onClick={() => window.location.href = '/a/rewards/new' }className="create-reward-btn" >Create New Reward</button>
+        <button onClick={() => window.location.pathname += '/new' }className="create-reward-btn" >Create New Reward</button>
 
         <div className="rewards-grid">
           {rewards.map(reward => (
@@ -49,6 +51,8 @@ const RewardsPage = () => {
   };
   
 const RewardDetails = ({ reward, onClose }) => {
+  const apiUrl = "https://suffy-storefront.jutasoftware.co"; // Access the environment variable
+
     const [editForm, setEditForm] = useState({
       created_at: reward.created_at,
       updated_at: reward.updated_at,
@@ -60,7 +64,7 @@ const RewardDetails = ({ reward, onClose }) => {
 
     const handleDeleteReward = async () => {
         try {
-          await fetch(`http://localhost:9000/admin/rewards/${reward.id}`, {
+          await fetch(`${apiUrl}/admin/rewards/${reward.id}`, {
             method: 'DELETE',
             credentials:"include",
           });
@@ -82,7 +86,7 @@ const RewardDetails = ({ reward, onClose }) => {
             price: Math.round(editForm.price*100),
           };
         try {
-          const response = await fetch(`http://localhost:9000/admin/rewards/${reward.id}`, {
+          const response = await fetch(`${apiUrl}/admin/rewards/${reward.id}`, {
             method: 'POST',
             credentials:"include",
             headers: {

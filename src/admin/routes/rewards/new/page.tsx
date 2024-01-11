@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './NewRewardForm.css'; // Import your CSS file for styling
 
 const NewRewardForm = () => {
+  const apiUrl = "https://suffy-storefront.jutasoftware.co"; // Access the environment variable
+
   const [formData, setFormData] = useState({
     price: '',
     details: '',
@@ -19,12 +21,12 @@ const NewRewardForm = () => {
       setFormData({ ...formData, [name]: value });
     }
   };
-
+  
   const handleImageUpload = async () => {
     const data = new FormData();
     data.append('files', formData.image);
     try {
-      const response = await fetch('http://localhost:9000/admin/uploads', {
+      const response = await fetch(`${apiUrl}/admin/uploads`, {
         method: 'POST',
       
         body: data,
@@ -55,7 +57,7 @@ const NewRewardForm = () => {
     console.log(rewardData)
 
     try {
-      const response = await fetch('http://localhost:9000/admin/rewards', {
+      const response = await fetch(`${apiUrl}/admin/rewards`, {
         method: 'POST',
         credentials:"include",
 

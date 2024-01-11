@@ -7,14 +7,15 @@ import { Text } from "@medusajs/ui"
 import { Cash } from "@medusajs/icons"
 
 
-
 const Withdrawals = () => {
   const [withdrawals, setWithdrawals] = useState([]);
+  const apiUrl = "https://suffy-storefront.jutasoftware.co"; // Access the environment variable
 
+  console.log(apiUrl)
   useEffect(() => {
     const fetchWithdrawals = async () => {
       try {
-        const response = await fetch('http://localhost:9000/admin/withdrawals',{
+        const response = await fetch(`${apiUrl}/admin/withdrawals`,{
           credentials:"include"
         });
         if (!response.ok) {
@@ -55,7 +56,7 @@ const Withdrawals = () => {
         await handleUpdateStatus('approved');
     
         // Deduct points from the customer's LoyaltyPoints
-        const response = await fetch('http://localhost:9000/store/update-loyalty-points', {
+        const response = await fetch(`${apiUrl}/store/update-loyalty-points`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -76,7 +77,7 @@ const Withdrawals = () => {
     };
     const handleUpdateStatus = async (newStatus) => {
       try {
-        const response = await fetch(`http://localhost:9000/store/withdrawals/${withdrawal.id}`, {
+        const response = await fetch(`${apiUrl}/store/withdrawals/${withdrawal.id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

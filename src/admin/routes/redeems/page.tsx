@@ -10,11 +10,12 @@ import { Cash } from "@medusajs/icons"
 
 const Redeems = () => {
   const [redeem, setRedeems] = useState([]);
+  const apiUrl = "https://suffy-storefront.jutasoftware.co"; // Access the environment variable
 
   useEffect(() => {
     const fetchRedeems = async () => {
       try {
-        const response = await fetch('http://localhost:9000/admin/redeems', {
+        const response = await fetch(`${apiUrl}/admin/redeems`, {
             credentials:"include",
         });
         if (!response.ok) {
@@ -42,7 +43,7 @@ const Redeems = () => {
   };
   const handleUpdateStatus = async (newStatus,redeems) => {
     try {
-      const response = await fetch(`http://localhost:9000/store/redeems/${redeems.id}`, {
+      const response = await fetch(`${apiUrl}/store/redeems/${redeems.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +63,7 @@ const Redeems = () => {
         await handleUpdateStatus('approved', redeems);
         console.log(redeems.customer_id)
         // Deduct points from the customer's LoyaltyPoints
-        const response = await fetch('http://localhost:9000/store/update-loyalty-points', {
+        const response = await fetch(`${apiUrl}/store/update-loyalty-points`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
