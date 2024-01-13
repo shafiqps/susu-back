@@ -10,7 +10,7 @@ import { Cash } from "@medusajs/icons"
 
 const Redeems = () => {
   const [redeem, setRedeems] = useState([]);
-  const apiUrl = "https://suffy-storefront.jutasoftware.co"; // Access the environment variable
+  const apiUrl = "https://suffy.jutasoftware.co"; // Access the environment variable
 
   useEffect(() => {
     const fetchRedeems = async () => {

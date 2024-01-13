@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './NewRewardForm.css'; // Import your CSS file for styling
 
 const NewRewardForm = () => {
-  const apiUrl = "https://suffy-storefront.jutasoftware.co"; // Access the environment variable
+  const apiUrl = "https://suffy.jutasoftware.co"; // Access the environment variable
 
   const [formData, setFormData] = useState({
     price: '',
