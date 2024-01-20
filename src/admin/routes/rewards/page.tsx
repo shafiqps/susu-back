@@ -3,7 +3,7 @@ import './RewardsList.css'; // Import your CSS file
 import { ShoppingBag } from "@medusajs/icons"
 
 const RewardsPage = () => {
-    const apiUrl = "https://suffy.jutasoftware.co"; // Access the environment variable
+    const apiUrl = "http://localhost:9000"; // Access the environment variable
 
     const [rewards, setRewards] = useState([]);
     const [selectedReward, setSelectedReward] = useState(null);
@@ -51,7 +51,7 @@ const RewardsPage = () => {
   };
   
 const RewardDetails = ({ reward, onClose }) => {
-  const apiUrl = "https://suffy.jutasoftware.co"; // Access the environment variable
+  const apiUrl = "http://localhost:9000"; // Access the environment variable
 
     const [editForm, setEditForm] = useState({
       created_at: reward.created_at,

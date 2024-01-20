@@ -9,7 +9,7 @@ import { Cash } from "@medusajs/icons"
 
 const Withdrawals = () => {
   const [withdrawals, setWithdrawals] = useState([]);
-  const apiUrl = "https://suffy.jutasoftware.co"; // Access the environment variable
+  const apiUrl = "http://localhost:9000"; // Access the environment variable
 
   console.log(apiUrl)
   useEffect(() => {

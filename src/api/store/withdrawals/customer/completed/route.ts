@@ -10,7 +10,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     const loggedInUserId = req.user.customer_id; // Assuming you have a way to get the logged-in user's ID
   
     try {
-      const withdrawals = await withdrawalService.listByCustomerCompleted({}, {}, loggedInUserId);
+      const withdrawals = await withdrawalService.listByCustomerCompleted(loggedInUserId, {});
       res.status(200).json({ withdrawals });
     } catch (error) {
       res.status(500).json({ error: error.message });

@@ -8,6 +8,11 @@ import { WithdrawalRepository } from "../repositories/withdrawal"
 import { Withdrawal } from "../models/withdrawal"
 import { MedusaError } from "@medusajs/utils"
 import { Not } from "typeorm"
+
+type WithdrawalSelector = Selector<Withdrawal> & {
+  customer_id?: string;
+  status?: string;
+};
 class WithdrawalService extends TransactionBaseService {
   protected withdrawalRepository_: typeof WithdrawalRepository
 
@@ -104,7 +109,7 @@ class WithdrawalService extends TransactionBaseService {
     })
   }
   async listByCustomerPending(
-    selector: Selector<Withdrawal> = {},
+    selector: WithdrawalSelector = {},
     config: FindConfig<Withdrawal> = {
       skip: 0,
       take: 20,
@@ -121,22 +126,44 @@ class WithdrawalService extends TransactionBaseService {
   }
 
   async listByCustomerCompleted(
-    selector: Selector<Withdrawal> = {},
+    customerId: string,
     config: FindConfig<Withdrawal> = {
       skip: 0,
       take: 20,
       relations: [],
-    },
-    customerId?: string
-  ): Promise<Withdrawal[]> {
-    if (customerId) {
-      selector.customer_id = customerId;
-      selector.status = Not("pending")
     }
-    const [withdrawals] = await this.listAndCount(selector, config);
-    return withdrawals;
-  }
+  ): Promise<Withdrawal[]> {
+    const withdrawalRepo = this.activeManager_.withRepository(
+      this.withdrawalRepository_
+    );
   
+    // Use the TypeORM query builder to construct the query
+    const queryBuilder = withdrawalRepo.createQueryBuilder("withdrawal");
+  
+    // Filter by customer_id
+    queryBuilder.where("withdrawal.customer_id = :customerId", { customerId: customerId });
+  
+    // Exclude pending withdrawals
+    queryBuilder.andWhere("withdrawal.status != :status", { status: "pending" });
+  
+    // Apply pagination if needed
+    if (config.skip) {
+      queryBuilder.skip(config.skip);
+    }
+    if (config.take) {
+      queryBuilder.take(config.take);
+    }
+  
+    // Apply relations if needed
+    if (config.relations) {
+      config.relations.forEach(relation => {
+        queryBuilder.leftJoinAndSelect(`withdrawal.${relation}`, relation);
+      });
+    }
+  
+    // Execute the query and return the result
+    return queryBuilder.getMany();
+  }
   async delete(id: string): Promise<void> {
     return await this.atomicPhase_(async (manager) => {
       const withdrawalRepo = manager.withRepository(

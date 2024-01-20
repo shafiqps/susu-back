@@ -7,7 +7,9 @@ import {
   import { RedeemRepository } from "../repositories/redeem"
   import { Redeem } from "../models/redeem"
   import { MedusaError } from "@medusajs/utils"
-  
+  type RedeemSelector = Selector<Redeem> & {
+    customer_id?: string;
+  };
   class RedeemService extends TransactionBaseService {
     protected redeemRepository_: typeof RedeemRepository
   
@@ -68,7 +70,7 @@ import {
       return redeem
     }
     async listById(
-      selector: Selector<Redeem> = {},
+      selector: RedeemSelector = {},
       config: FindConfig<Redeem> = {
         skip: 0,
         take: 20,
